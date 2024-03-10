@@ -1,0 +1,15 @@
+D:\_LinhH\University\2023-2024_HK2\Nien_Luan_Co_So_Nganh\TestFunctions\bin\Debug\net6.0\TestFunctions.exe
+D:\_LinhH\University\2023-2024_HK2\Nien_Luan_Co_So_Nganh\TestFunctions\bin\Debug\net6.0\TestFunctions.deps.json
+D:\_LinhH\University\2023-2024_HK2\Nien_Luan_Co_So_Nganh\TestFunctions\bin\Debug\net6.0\TestFunctions.runtimeconfig.json
+D:\_LinhH\University\2023-2024_HK2\Nien_Luan_Co_So_Nganh\TestFunctions\bin\Debug\net6.0\TestFunctions.dll
+D:\_LinhH\University\2023-2024_HK2\Nien_Luan_Co_So_Nganh\TestFunctions\bin\Debug\net6.0\TestFunctions.pdb
+D:\_LinhH\University\2023-2024_HK2\Nien_Luan_Co_So_Nganh\TestFunctions\obj\Debug\net6.0\TestFunctions.csproj.AssemblyReference.cache
+D:\_LinhH\University\2023-2024_HK2\Nien_Luan_Co_So_Nganh\TestFunctions\obj\Debug\net6.0\TestFunctions.GeneratedMSBuildEditorConfig.editorconfig
+D:\_LinhH\University\2023-2024_HK2\Nien_Luan_Co_So_Nganh\TestFunctions\obj\Debug\net6.0\TestFunctions.AssemblyInfoInputs.cache
+D:\_LinhH\University\2023-2024_HK2\Nien_Luan_Co_So_Nganh\TestFunctions\obj\Debug\net6.0\TestFunctions.AssemblyInfo.cs
+D:\_LinhH\University\2023-2024_HK2\Nien_Luan_Co_So_Nganh\TestFunctions\obj\Debug\net6.0\TestFunctions.csproj.CoreCompileInputs.cache
+D:\_LinhH\University\2023-2024_HK2\Nien_Luan_Co_So_Nganh\TestFunctions\obj\Debug\net6.0\TestFunctions.dll
+D:\_LinhH\University\2023-2024_HK2\Nien_Luan_Co_So_Nganh\TestFunctions\obj\Debug\net6.0\refint\TestFunctions.dll
+D:\_LinhH\University\2023-2024_HK2\Nien_Luan_Co_So_Nganh\TestFunctions\obj\Debug\net6.0\TestFunctions.pdb
+D:\_LinhH\University\2023-2024_HK2\Nien_Luan_Co_So_Nganh\TestFunctions\obj\Debug\net6.0\TestFunctions.genruntimeconfig.cache
+D:\_LinhH\University\2023-2024_HK2\Nien_Luan_Co_So_Nganh\TestFunctions\obj\Debug\net6.0\ref\TestFunctions.dll
