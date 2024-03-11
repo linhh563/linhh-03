@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,6 +10,8 @@ public class Tree {
     public Tree(Node root)
     {
         this.root = root;
+        this.root.SetPlayerTurn(1);
+        DetermineNode(root, 1);
     }
 
     public void CreateTree(Node node)
@@ -36,7 +39,7 @@ public class Tree {
 
     public void BrowseTree(Node node)
     {
-        Console.Write(node.value + ": ");
+        Console.Write(node.value + "(" + node.determinedValue + "): ");
 
         if (node.isLeaf)
         {
@@ -51,5 +54,46 @@ public class Tree {
         BrowseTree(node.firstChild);
         BrowseTree(node.secondChild);
         BrowseTree(node.thirdChild);
+    }
+
+    private int DetermineNode(Node node, int playerTurn)
+    {
+        Node _node;
+        int value;
+
+        if (node.isLeaf)
+        {
+            return node.determinedValue;
+        }
+
+        value = (playerTurn == 1) ? DefinedValue.Max : DefinedValue.Min;
+
+        _node = node.firstChild;
+        value = DetermineChild(playerTurn, value, _node);
+
+        _node = node.secondChild;
+        value = DetermineChild(playerTurn, value, _node);
+
+        _node = node.thirdChild;
+        value = DetermineChild(playerTurn, value, _node);
+
+        node.SetPlayerTurn(value);
+        return value;
+    }
+
+    private int DetermineChild(int playerTurn, int value, Node node)
+    {
+        int result = value;
+
+        if (playerTurn == 1)
+        {
+            result = DefinedValue.FindMax(value, DetermineNode(node, 2));
+        }
+        else 
+        {
+            result = DefinedValue.FindMin(value, DetermineNode(node, 1));
+        }
+
+        return result;
     }
 }
