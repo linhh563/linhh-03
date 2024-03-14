@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 public class Node {
-    public string label;
     public int value {get; private set;}
     public Node firstChild {get; private set;}
     public Node secondChild {get; private set;}
@@ -35,7 +34,7 @@ public class Node {
         }
 
         this.determinedValue = DefinedValue.UndefinedDeterminedValue;
-        firstChild.SetDeterminedValue();
+        firstChild.SetDeterminedValueForLeaf();
         this.isLeaf = false;
     }
 
@@ -52,7 +51,7 @@ public class Node {
         }
 
         this.determinedValue = DefinedValue.UndefinedDeterminedValue;
-        secondChild.SetDeterminedValue();
+        secondChild.SetDeterminedValueForLeaf();
         this.isLeaf = false;
     }
 
@@ -69,7 +68,7 @@ public class Node {
         }
 
         this.determinedValue = DefinedValue.UndefinedDeterminedValue;
-        thirdChild.SetDeterminedValue();
+        thirdChild.SetDeterminedValueForLeaf();
         this.isLeaf = false;
     }
 
@@ -78,8 +77,13 @@ public class Node {
         playerTurn = value;
     }
 
-    private void SetDeterminedValue()
+    private void SetDeterminedValueForLeaf()
     {
         this.determinedValue = (playerTurn == 1) ? 1 : 0;
+    }
+
+    public void SetDeterminedValue(int value)
+    {
+        this.determinedValue = value;
     }
 }

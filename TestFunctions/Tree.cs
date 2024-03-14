@@ -11,7 +11,6 @@ public class Tree {
     {
         this.root = root;
         this.root.SetPlayerTurn(1);
-        DetermineNode(root, 1);
     }
 
     public void CreateTree(Node node)
@@ -34,56 +33,58 @@ public class Tree {
         CreateTree(node.secondChild);
         CreateTree(node.thirdChild);
 
+        DetermineNode(root, 1);
+
         Console.WriteLine("Create new tree successful");
     }
 
     public void BrowseTree(Node node)
     {
-        Console.Write(node.value + "(" + node.determinedValue + "): ");
+        Console.WriteLine(node.value + "(" + node.determinedValue + ")");
 
         if (node.isLeaf)
         {
-            Console.WriteLine();
             return;
         }
-
-        Console.Write(node.firstChild.value + ", ");
-        Console.Write(node.secondChild.value + ", ");
-        Console.WriteLine(node.thirdChild.value);
 
         BrowseTree(node.firstChild);
         BrowseTree(node.secondChild);
         BrowseTree(node.thirdChild);
     }
 
+    // ham dinh tri cho cay tro choi
+    // player turn = 1 thi lay max
+    // player turn = 2 thi lay min
     private int DetermineNode(Node node, int playerTurn)
     {
-        Node _node;
-        int value;
-
         if (node.isLeaf)
         {
             return node.determinedValue;
         }
 
-        value = (playerTurn == 1) ? DefinedValue.Max : DefinedValue.Min;
+        Node _node;
 
+        int value = (playerTurn == 1) ? DefinedValue.Min : DefinedValue.Max;
+
+        // dinh tri nut con 1
         _node = node.firstChild;
         value = DetermineChild(playerTurn, value, _node);
 
+        // dinh tri nut con 2
         _node = node.secondChild;
         value = DetermineChild(playerTurn, value, _node);
 
+        // dinh tri nut con 3
         _node = node.thirdChild;
         value = DetermineChild(playerTurn, value, _node);
 
-        node.SetPlayerTurn(value);
+        node.SetDeterminedValue(value);
         return value;
     }
 
     private int DetermineChild(int playerTurn, int value, Node node)
     {
-        int result = value;
+        int result;
 
         if (playerTurn == 1)
         {

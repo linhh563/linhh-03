@@ -1,4 +1,4 @@
-﻿Node node = new Node(5);
+﻿Node node = new Node(7);
 Tree tree = new Tree(node);
 
 tree.CreateTree(tree.root);
