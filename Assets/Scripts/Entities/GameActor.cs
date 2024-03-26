@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameActor : MonoBehaviour
 {
-    private bool isInTurn;
+    public bool isInTurn {get; private set;}
     
     public void SetInTurnState(bool state)
     {

@@ -1,12 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Storage : MonoBehaviour
 {
     public static Storage Instance;
-    private int totalPebble;
+    public int totalPebble {get; private set;}
     public int currentPebble {get; private set;}
+    public int numberPebbleTaken {get; private set;}
 
     private void Awake() {
         CreateSingleton();
@@ -22,11 +25,13 @@ public class Storage : MonoBehaviour
 
     public void InitializePebble(int totalPebble, int currentPebble)
     {
-
+        this.totalPebble = totalPebble;
+        this.currentPebble = currentPebble;
     }
 
     public void ChangePebbleAmount(int value)
     {
-
+        this.currentPebble += value;
+        numberPebbleTaken = Math.Abs(value);
     }
 }
