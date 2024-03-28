@@ -11,13 +11,14 @@ public class GamePlayUIController : MonoBehaviour
     [SerializeField] private Text currentPebbleTxt;
     [SerializeField] private GameObject numberTaken1UI;
     [SerializeField] private GameObject numberTaken2UI;
+    [SerializeField] private Button undoBtn;
+    [SerializeField] private Button redoBtn;
     [SerializeField] private Text actor1PebbleTakenTxt;
     [SerializeField] private Text actor2PebbleTakenTxt;
-    private int btnIsHighLighted;
-    private float timeHighLighted;
 
     private void Update() {
         UpdateCurrentPebbleText();
+        EnableUndoBtn();
     }
 
     public void EnablePauseUI(bool state)
@@ -25,19 +26,21 @@ public class GamePlayUIController : MonoBehaviour
 
     }
 
-    public void EnableUndoBtn(bool state)
+    public void EnableUndoBtn()
     {
-
+        if (GameController.Instance.CanUndo())
+        {
+            undoBtn.interactable = true;
+        }
+        else
+        {
+            undoBtn.interactable = false;
+        }
     }
 
     public void EnableRedoBtn(bool state)
     {
         
-    }
-
-    public void HighLightTakePebbleBtn()
-    {
-
     }
 
     public void HighLightPlayer(int player)
@@ -55,16 +58,6 @@ public class GamePlayUIController : MonoBehaviour
         }
     }
 
-    public void SetGameActorBorderColor(int gameActor)
-    {
-
-    }
-
-    public void SetTakePebbleBtnBorderColor(int btnOrder, float r, float g, float b)
-    {
-
-    }
-
     private void UpdateCurrentPebbleText()
     {
         currentPebbleTxt.text = Storage.Instance.currentPebble.ToString();
@@ -72,7 +65,7 @@ public class GamePlayUIController : MonoBehaviour
 
     public void ShowNumberPebbleAreTaken()
     {
-        var playerTurn = GameController.Instance.playerTurn;
+        var playerTurn = GameController.Instance.playerInTurn;
         switch (playerTurn)
         {
             case 1:
@@ -97,5 +90,11 @@ public class GamePlayUIController : MonoBehaviour
                 actor2PebbleTakenTxt.text = numberPebble.ToString();
                 break;
         }
+    }
+
+    public void HidePebbleTakenUI()
+    {
+        numberTaken1UI.SetActive(false);
+        numberTaken2UI.SetActive(false);
     }
 }

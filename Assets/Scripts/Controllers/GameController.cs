@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -11,16 +12,17 @@ public class GameController : MonoBehaviour
     [SerializeField] private Transform gameActorTrans;
     private GameActor gameActor1;
     private GameActor gameActor2;
-    // private List<Turn> turnLog;
-    private int turnPointer;
+    private List<Turn> turnLog;
+    public int turnPointer {get; private set;}
     private SavedGame savedGame;
-    public int playerTurn {get; private set;}
+    public int playerInTurn {get; private set;}
 
     // --------------- TEST ---------------
     public int totalPebble;
 
     private void Awake() {
         CreateSingleton();
+        InitializeComponents();
         LoadPvBGame();
     }
 
@@ -35,6 +37,12 @@ public class GameController : MonoBehaviour
     private void GetComponents()
     {
         
+    }
+
+    private void InitializeComponents()
+    {
+        turnLog = new List<Turn>();
+        turnPointer = -1;
     }
 
     public void LoadGame()
@@ -59,7 +67,7 @@ public class GameController : MonoBehaviour
         // ------------- TEST -------------
         gameActor1.SetInTurnState(true);
         uiController.HighLightPlayer(1);
-        playerTurn = 1;
+        playerInTurn = 1;
     }
 
     public void SwitchTurn()
@@ -68,13 +76,13 @@ public class GameController : MonoBehaviour
         if (actor1InTurn)
         {
             uiController.HighLightPlayer(2);
-            playerTurn = 2;
+            playerInTurn = 2;
             uiController.UpdateNumberTakenText(1, Storage.Instance.numberPebbleTaken);
         }
         else
         {
             uiController.HighLightPlayer(1);
-            playerTurn = 1;
+            playerInTurn = 1;
             uiController.UpdateNumberTakenText(2, Storage.Instance.numberPebbleTaken);
         }
 
@@ -84,22 +92,46 @@ public class GameController : MonoBehaviour
 
     public void UpdateTurnLog(int pebbleAmount)
     {
+        if (turnPointer < turnLog.Count)
+        {
 
+        }
+
+        Turn turn = new Turn(playerInTurn, pebbleAmount);
+        turnLog.Add(turn);
+        turnPointer++;
     }
 
-    // public bool CanUndo()
-    // {
+    public bool CanUndo()
+    {
+        return (turnPointer >= 0) ? true : false;
+    }
 
-    // }
-
-    // public bool CanRedo()
-    // {
-
-    // }
+    public bool CanRedo()
+    {
+        return (turnPointer < turnLog.Count) ? true : false;
+    }
 
     public void Undo()
     {
+        turnPointer--;
 
+        if (turnPointer == -1)
+        {
+            Storage.Instance.ChangePebbleAmount(Storage.Instance.numberPebbleTaken);
+            uiController.HidePebbleTakenUI();
+            return;
+        }
+
+        var turn = turnLog.ElementAt(turnPointer);
+        playerInTurn = turn.player;
+        uiController.HighLightPlayer(turn.player);
+        Storage.Instance.ChangePebbleAmount(Storage.Instance.numberPebbleTaken);
+
+        int playerUpdate = (turn.player == 1) ? 2 : 1;
+        uiController.UpdateNumberTakenText(playerUpdate, turn.pebbleTaken);
+        uiController.ShowNumberPebbleAreTaken();
+        Storage.Instance.SetNumberTaken(turn.pebbleTaken);
     }
 
     public void Redo()
@@ -122,8 +154,8 @@ public class GameController : MonoBehaviour
         
     }
 
-    public void SetPlayerInTurn(int value)
+    public void SetPlayerInTurn(int player)
     {
-        this.playerTurn = value;
+        this.playerInTurn = player;
     }
 }

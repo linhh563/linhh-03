@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
-public class Turn : MonoBehaviour
+public class Turn
 {
     public int player {get; private set;}
     public int pebbleTaken {get; private set;}
