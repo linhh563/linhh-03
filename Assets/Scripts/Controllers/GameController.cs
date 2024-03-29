@@ -72,8 +72,8 @@ public class GameController : MonoBehaviour
 
     public void SwitchTurn()
     {
-        var actor1InTurn = gameActor1.isInTurn;
-        if (actor1InTurn)
+        // var actor1InTurn = gameActor1.isInTurn;
+        if (playerInTurn == 1)
         {
             uiController.HighLightPlayer(2);
             playerInTurn = 2;
@@ -86,18 +86,23 @@ public class GameController : MonoBehaviour
             uiController.UpdateNumberTakenText(2, Storage.Instance.numberPebbleTaken);
         }
 
-        gameActor1.SetInTurnState(!actor1InTurn);
-        gameActor2.SetInTurnState(actor1InTurn);
+        // gameActor1.SetInTurnState(!actor1InTurn);
+        // gameActor2.SetInTurnState(actor1InTurn);
     }
 
     public void UpdateTurnLog(int pebbleAmount)
     {
-        if (turnPointer < turnLog.Count)
+        if (turnPointer < turnLog.Count - 1)
         {
-
+            // Debug.Log("Remove " + (turnLog.Count - (turnPointer + 1)) + "elements");
+            turnLog.RemoveRange(turnPointer + 1, turnLog.Count - (turnPointer + 1));
+            // // TEST
+            // var test = turnLog.LastOrDefault();
+            // Debug.Log("last element: " + test.player + " - " + test.pebbleTaken);
         }
 
-        Turn turn = new Turn(playerInTurn, pebbleAmount);
+        int playerTurn = (playerInTurn == 1) ? 2 : 1;
+        Turn turn = new Turn(playerTurn, pebbleAmount);
         turnLog.Add(turn);
         turnPointer++;
     }
@@ -124,12 +129,11 @@ public class GameController : MonoBehaviour
         }
 
         var turn = turnLog.ElementAt(turnPointer);
-        playerInTurn = turn.player;
-        uiController.HighLightPlayer(turn.player);
+        playerInTurn = (turn.player == 1) ? 2 : 1;
+        uiController.HighLightPlayer(playerInTurn);
         Storage.Instance.ChangePebbleAmount(Storage.Instance.numberPebbleTaken);
 
-        int playerUpdate = (turn.player == 1) ? 2 : 1;
-        uiController.UpdateNumberTakenText(playerUpdate, turn.pebbleTaken);
+        uiController.UpdateNumberTakenText(turn.player, turn.pebbleTaken);
         uiController.ShowNumberPebbleAreTaken();
         Storage.Instance.SetNumberTaken(turn.pebbleTaken);
     }
