@@ -8,6 +8,8 @@ public class GamePlayUIController : MonoBehaviour
     private GameObject pausePanel;
     [SerializeField] private GameObject gameActor1Border;
     [SerializeField] private GameObject gameActor2Border;
+    [SerializeField] Image avatar1;
+    [SerializeField] Image avatar2;
     [SerializeField] private Text currentPebbleTxt;
     [SerializeField] private GameObject numberTaken1UI;
     [SerializeField] private GameObject numberTaken2UI;
@@ -19,6 +21,7 @@ public class GamePlayUIController : MonoBehaviour
     private void Update() {
         UpdateCurrentPebbleText();
         EnableUndoBtn();
+        EnableRedoBtn();
     }
 
     public void EnablePauseUI(bool state)
@@ -38,9 +41,16 @@ public class GamePlayUIController : MonoBehaviour
         }
     }
 
-    public void EnableRedoBtn(bool state)
+    public void EnableRedoBtn()
     {
-        
+        if (GameController.Instance.CanRedo())
+        {
+            redoBtn.interactable = true;
+        }
+        else
+        {
+            redoBtn.interactable = false;
+        }
     }
 
     public void HighLightPlayer(int player)
@@ -71,10 +81,14 @@ public class GamePlayUIController : MonoBehaviour
             case 1:
                 numberTaken1UI.SetActive(false);
                 numberTaken2UI.SetActive(true);
+                avatar1.color = new Color(1f, 1f, 1f, 1f);
+                avatar2.color = new Color(0.7f, 0.7f, 0.7f, 1f);
                 break;
             case 2:
                 numberTaken1UI.SetActive(true);
                 numberTaken2UI.SetActive(false);
+                avatar1.color = new Color(0.7f, 0.7f, 0.7f, 1f);
+                avatar2.color = new Color(1f, 1f, 1f, 1f);
                 break;
         }
     }

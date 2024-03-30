@@ -114,7 +114,7 @@ public class GameController : MonoBehaviour
 
     public bool CanRedo()
     {
-        return (turnPointer < turnLog.Count) ? true : false;
+        return (turnPointer < turnLog.Count - 1) ? true : false;
     }
 
     public void Undo()
@@ -140,7 +140,21 @@ public class GameController : MonoBehaviour
 
     public void Redo()
     {
+        turnPointer++;
 
+        if (turnPointer == turnLog.Count - 1)
+        {
+            return;
+        }
+
+        var turn = turnLog.ElementAt(turnPointer);
+        playerInTurn = (turn.player == 1) ? 2 : 1;
+        uiController.HighLightPlayer(playerInTurn);
+        Storage.Instance.ChangePebbleAmount(-turn.pebbleTaken);
+
+        uiController.UpdateNumberTakenText(turn.player, turn.pebbleTaken);
+        uiController.ShowNumberPebbleAreTaken();
+        Storage.Instance.SetNumberTaken(turn.pebbleTaken);    
     }
 
     public void SaveGame()
