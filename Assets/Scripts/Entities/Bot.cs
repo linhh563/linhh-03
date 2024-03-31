@@ -7,10 +7,12 @@ public class Bot : GameActor
     private int level;
     private GameDeterminedTree determinedTree;
     private Node currentNode;
+    private int startTurn;
 
     public void InitializeDeterminedTree(int totalPebble)
     {
-
+        this.determinedTree = new GameDeterminedTree(totalPebble);
+        determinedTree.CreateTree(determinedTree.root);
     }
 
     public void UpdateCurrentNode(int currentPebble)

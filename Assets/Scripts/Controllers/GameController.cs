@@ -60,8 +60,9 @@ public class GameController : MonoBehaviour
         gameActor1 = gameActorTrans.GetChild(0).AddComponent<Player>();
         gameActor2 = gameActorTrans.GetChild(1).AddComponent<Bot>();
 
-        ((Bot)gameActor2).SetBotLevel(3);
         Storage.Instance.InitializePebble(totalPebble, totalPebble);
+        ((Bot)gameActor2).SetBotLevel(3);
+        ((Bot)gameActor2).InitializeDeterminedTree(Storage.Instance.totalPebble);
         // playerTurn = savedGame.playerTurn;
 
         // ------------- TEST -------------
