@@ -7,12 +7,12 @@ public class Node
     public int value {get; private set;}
     public int determinedValue {get; private set;}
     public List<Node> children {get; private set;}
-    public Node firstChild {get; private set;}
-    public Node secondChild {get; private set;}
-    public Node thirdChild {get; private set;}
+    // public Node firstChild {get; private set;}
+    // public Node secondChild {get; private set;}
+    // public Node thirdChild {get; private set;}
     public bool isLeaf {get; private set;}
-    private int playerTurn;
-    private Node parent;
+    public int playerTurn {get; private set;}
+    public Node parent {get; private set;}
 
     public Node(int value)
     {
@@ -21,56 +21,78 @@ public class Node
         children = new List<Node>();
     }
 
-    public void AddFirstChild(Node child)
+    public void AddChild(Node child)
     {
-        this.firstChild = child;
-
         if (this.playerTurn == 1)
         {
-            firstChild.SetPlayerTurn(2);
+            child.SetPlayerTurn(2);
         }
-        else {
-            firstChild.SetPlayerTurn(1);
+        else
+        {
+            child.SetPlayerTurn(1);
         }
 
-        this.determinedValue = DefinedValue.UndefinedDeterminedValue;
-        firstChild.SetDeterminedValueForLeaf();
-        this.isLeaf = false;
+        this.determinedValue = (playerTurn == 1) ? DefinedValue.Min : DefinedValue.Max;
+        child.SetDeterminedValueForLeaf();
+        child.parent = this;
+        isLeaf = false;
+
+        children.Add(child);
     }
 
-    public void AddSecondChild(Node child)
-    {
-        this.secondChild = child;
+    // public void AddFirstChild(Node child)
+    // {
+    //     this.firstChild = child;
+
+    //     if (this.playerTurn == 1)
+    //     {
+    //         firstChild.SetPlayerTurn(2);
+    //     }
+    //     else {
+    //         firstChild.SetPlayerTurn(1);
+    //     }
+
+    //     // assign temporary determine value for alpha-beta.
+    //     this.determinedValue = (this.playerTurn == 1) ? DefinedValue.Min : DefinedValue.Max;
+    //     firstChild.SetDeterminedValueForLeaf();
+    //     this.isLeaf = false;
+    // }
+
+    // public void AddSecondChild(Node child)
+    // {
+    //     this.secondChild = child;
         
-        if (this.playerTurn == 1)
-        {
-            secondChild.SetPlayerTurn(2);
-        }
-        else {
-            secondChild.SetPlayerTurn(1);
-        }
+    //     if (this.playerTurn == 1)
+    //     {
+    //         secondChild.SetPlayerTurn(2);
+    //     }
+    //     else {
+    //         secondChild.SetPlayerTurn(1);
+    //     }
 
-        this.determinedValue = DefinedValue.UndefinedDeterminedValue;
-        secondChild.SetDeterminedValueForLeaf();
-        this.isLeaf = false;
-    }
+    //     // assign temporary determine value for alpha-beta.
+    //     this.determinedValue = (this.playerTurn == 1) ? DefinedValue.Min : DefinedValue.Max;
+    //     secondChild.SetDeterminedValueForLeaf();
+    //     this.isLeaf = false;
+    // }
 
-    public void AddThirdChild(Node child)
-    {
-        this.thirdChild = child;
+    // public void AddThirdChild(Node child)
+    // {
+    //     this.thirdChild = child;
 
-        if (this.playerTurn == 1)
-        {
-            thirdChild.SetPlayerTurn(2);
-        }
-        else {
-            thirdChild.SetPlayerTurn(1);
-        }
+    //     if (this.playerTurn == 1)
+    //     {
+    //         thirdChild.SetPlayerTurn(2);
+    //     }
+    //     else {
+    //         thirdChild.SetPlayerTurn(1);
+    //     }
 
-        this.determinedValue = DefinedValue.UndefinedDeterminedValue;
-        thirdChild.SetDeterminedValueForLeaf();
-        this.isLeaf = false;
-    }
+    //     // assign temporary determine value for alpha-beta.
+    //     this.determinedValue = (this.playerTurn == 1) ? DefinedValue.Min : DefinedValue.Max;
+    //     thirdChild.SetDeterminedValueForLeaf();
+    //     this.isLeaf = false;
+    // }
 
     public void SetPlayerTurn(int turn)
     {
