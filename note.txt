@@ -1,0 +1,3 @@
+dùng thuật toán cắt tỉa alpha-beta để định trị cho cây trò chơi
+node đại diện cho người chơi có turn là 1, giá trị tạm là min.
+node đại diện cho bot có turn là 2, giá trị tạm là max.

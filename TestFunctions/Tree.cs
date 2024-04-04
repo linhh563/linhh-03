@@ -78,7 +78,7 @@ public class Tree {
         _node = node.thirdChild;
         value = DetermineChild(playerTurn, value, _node);
 
-        node.SetDeterminedValue(value);
+        node.SetDeterminedValue(value);`
         return value;
     }
 
