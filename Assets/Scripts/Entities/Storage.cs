@@ -35,7 +35,7 @@ public class Storage : MonoBehaviour
         numberPebbleTaken = Math.Abs(value);
     }
 
-    public void SetNumberTaken(int value)
+    public void SetNumberPebbleTaken(int value)
     {
         numberPebbleTaken = value;
     }

@@ -73,7 +73,7 @@ public class GamePlayUIController : MonoBehaviour
         currentPebbleTxt.text = Storage.Instance.currentPebble.ToString();
     }
 
-    public void ShowNumberPebbleAreTaken()
+    public void ShowNumberPebbleTaken()
     {
         var playerTurn = GameController.Instance.playerInTurn;
         switch (playerTurn)

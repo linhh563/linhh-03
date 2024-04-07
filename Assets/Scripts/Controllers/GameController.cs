@@ -61,14 +61,14 @@ public class GameController : MonoBehaviour
         gameActor2 = gameActorTrans.GetChild(1).AddComponent<Bot>();
 
         Storage.Instance.InitializePebble(totalPebble, totalPebble);
-        ((Bot)gameActor2).SetBotLevel(3);
         ((Bot)gameActor2).InitializeDeterminedTree(Storage.Instance.totalPebble);
         // playerTurn = savedGame.playerTurn;
 
-        // ------------- TEST -------------
         gameActor1.SetInTurnState(true);
+        //  MODIFY -- change player turn fit to saved game.
+        SetPlayerInTurn(1);
         uiController.HighLightPlayer(1);
-        playerInTurn = 1;
+        // ADD -- Set turn log.
     }
 
     public void SwitchTurn()
@@ -77,13 +77,13 @@ public class GameController : MonoBehaviour
         if (playerInTurn == 1)
         {
             uiController.HighLightPlayer(2);
-            playerInTurn = 2;
+            SetPlayerInTurn(2);
             uiController.UpdateNumberTakenText(1, Storage.Instance.numberPebbleTaken);
         }
         else
         {
             uiController.HighLightPlayer(1);
-            playerInTurn = 1;
+            SetPlayerInTurn(1);
             uiController.UpdateNumberTakenText(2, Storage.Instance.numberPebbleTaken);
         }
 
@@ -135,8 +135,8 @@ public class GameController : MonoBehaviour
         Storage.Instance.ChangePebbleAmount(Storage.Instance.numberPebbleTaken);
 
         uiController.UpdateNumberTakenText(turn.player, turn.pebbleTaken);
-        uiController.ShowNumberPebbleAreTaken();
-        Storage.Instance.SetNumberTaken(turn.pebbleTaken);
+        uiController.ShowNumberPebbleTaken();
+        Storage.Instance.SetNumberPebbleTaken(turn.pebbleTaken);
     }
 
     public void Redo()
@@ -154,8 +154,8 @@ public class GameController : MonoBehaviour
         Storage.Instance.ChangePebbleAmount(-turn.pebbleTaken);
 
         uiController.UpdateNumberTakenText(turn.player, turn.pebbleTaken);
-        uiController.ShowNumberPebbleAreTaken();
-        Storage.Instance.SetNumberTaken(turn.pebbleTaken);    
+        uiController.ShowNumberPebbleTaken();
+        Storage.Instance.SetNumberPebbleTaken(turn.pebbleTaken);    
     }
 
     public void SaveGame()

@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Bot : GameActor
 {
-    private int level;
     private GameDeterminedTree determinedTree;
     private Node currentNode;
-    private int startTurn;
+    private int turn;
 
     public void InitializeDeterminedTree(int totalPebble)
     {
@@ -15,23 +14,46 @@ public class Bot : GameActor
         determinedTree.CreateTree(determinedTree.root);
     }
 
-    public void UpdateCurrentNode(int currentPebble)
+    private void UpdateCurrentNode(int numberPebble)
     {
+        int updatedValue = currentNode.value - numberPebble;
 
+        foreach (var child in currentNode.children)
+        {
+            if (child.value == updatedValue)
+            {
+                currentNode = child;
+            }
+        }
+    }
+    
+    private int BestWay()
+    {
+        int tempDeterminedValue = DefinedValue.Max;
+        int tempValue = 1;
+
+        foreach(var child in currentNode.children)
+        {
+            if (tempDeterminedValue > child.determinedValue)
+            {
+                tempDeterminedValue = child.determinedValue;
+                tempValue = child.value;
+            }
+        }
+
+        return tempValue;
     }
 
-    // public int FindBestWay()
-    // {
-
-    // }
-
-    // public int FindWay()
-    // {
-
-    // }
-
-    public void SetBotLevel(int level)
+    public void TakePebble()
     {
-        this.level = level;
+        if (GameController.Instance.playerInTurn != this.turn)
+        {
+            return;
+        }
+
+        int numberPebble = BestWay();
+        Storage.Instance.ChangePebbleAmount(numberPebble);
+        GameController.Instance.UpdateTurnLog(numberPebble);
+        UpdateCurrentNode(numberPebble);
     }
 }

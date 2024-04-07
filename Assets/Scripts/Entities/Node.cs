@@ -26,13 +26,14 @@ public class Node
         if (this.playerTurn == 1)
         {
             child.SetPlayerTurn(2);
+            SetDeterminedValue(DefinedValue.Min);
         }
         else
         {
             child.SetPlayerTurn(1);
+            SetDeterminedValue(DefinedValue.Max);
         }
 
-        this.determinedValue = (playerTurn == 1) ? DefinedValue.Min : DefinedValue.Max;
         child.SetDeterminedValueForLeaf();
         child.parent = this;
         isLeaf = false;

@@ -100,19 +100,19 @@ public class GameDeterminedTree
         return value;
     }
 
-    public int DetermineChild(int playerTurn, int value, Node node)
-    {
-        int result;
+    // public int DetermineChild(int playerTurn, int value, Node node)
+    // {
+    //     int result;
         
-        if (playerTurn == 1)
-        {
-            result = DefinedValue.FindMax(value, DetermineNode(node));
-        }
-        else
-        {
-            result = DefinedValue.FindMin(value, DetermineNode(node));
-        }
+    //     if (playerTurn == 1)
+    //     {
+    //         result = DefinedValue.FindMax(value, DetermineNode(node));
+    //     }
+    //     else
+    //     {
+    //         result = DefinedValue.FindMin(value, DetermineNode(node));
+    //     }
 
-        return result;
-    }
+    //     return result;
+    // }
 }
