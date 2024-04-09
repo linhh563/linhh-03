@@ -8,6 +8,23 @@ public class Bot : GameActor
     private Node currentNode;
     private int turn;
 
+    // private void Awake() {
+    //     turn = 2;
+    //     InitializeDeterminedTree(Storage.Instance.totalPebble);
+    //     currentNode = determinedTree.root;
+    // }
+
+    private void Update() {
+        TakePebble();
+    }
+
+    public void InitializeBot()
+    {
+        // MODIFY -- change 2 by the parameter.
+        turn = 2;
+        currentNode = determinedTree.root;
+    }
+
     public void InitializeDeterminedTree(int totalPebble)
     {
         this.determinedTree = new GameDeterminedTree(totalPebble);
@@ -41,7 +58,7 @@ public class Bot : GameActor
             }
         }
 
-        return tempValue;
+        return currentNode.value - tempValue;
     }
 
     public void TakePebble()
@@ -52,8 +69,15 @@ public class Bot : GameActor
         }
 
         int numberPebble = BestWay();
-        Storage.Instance.ChangePebbleAmount(numberPebble);
+        Storage.Instance.ChangePebbleAmount(-numberPebble);
         GameController.Instance.UpdateTurnLog(numberPebble);
         UpdateCurrentNode(numberPebble);
+        GameController.Instance.SwitchTurn();
+
+        Debug.LogWarning("Turn log");
+        foreach (var turn in GameController.Instance.turnLog)
+        {
+            Debug.Log("Turn: " + turn.player + " - " + turn.pebbleTaken);
+        }
     }
 }

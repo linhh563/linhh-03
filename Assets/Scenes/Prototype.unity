@@ -852,7 +852,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiController: {fileID: 2004501499}
   gameActorTrans: {fileID: 1503733262}
-  totalPebble: 30
+  totalPebble: 15
 --- !u!1 &2004501498
 GameObject:
   m_ObjectHideFlags: 0

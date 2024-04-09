@@ -49,7 +49,7 @@ public class GameDeterminedTree
         // CreateTree(root.secondChild);
         // CreateTree(root.thirdChild);
 
-        Debug.Log("Create tree successful!!!");
+        // Debug.Log("Create tree successful!!!");
 
         // add condition to cut alpha-beta
         DetermineNode(root);

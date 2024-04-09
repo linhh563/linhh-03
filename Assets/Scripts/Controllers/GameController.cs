@@ -12,7 +12,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private Transform gameActorTrans;
     private GameActor gameActor1;
     private GameActor gameActor2;
-    private List<Turn> turnLog;
+    // MODIFY -- change to private.
+    public List<Turn> turnLog;
     public int turnPointer {get; private set;}
     private SavedGame savedGame;
     public int playerInTurn {get; private set;}
@@ -62,6 +63,7 @@ public class GameController : MonoBehaviour
 
         Storage.Instance.InitializePebble(totalPebble, totalPebble);
         ((Bot)gameActor2).InitializeDeterminedTree(Storage.Instance.totalPebble);
+        ((Bot)gameActor2).InitializeBot();
         // playerTurn = savedGame.playerTurn;
 
         gameActor1.SetInTurnState(true);
