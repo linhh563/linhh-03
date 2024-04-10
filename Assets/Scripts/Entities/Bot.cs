@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class Bot : GameActor
@@ -31,8 +32,15 @@ public class Bot : GameActor
         determinedTree.CreateTree(determinedTree.root);
     }
 
-    private void UpdateCurrentNode(int numberPebble)
+    public void UpdateCurrentNode(int numberPebble)
     {
+        if (numberPebble == -1)
+        {
+            currentNode = currentNode.parent;
+            Debug.Log("current node value: " + currentNode.value);
+            return;
+        }
+
         int updatedValue = currentNode.value - numberPebble;
 
         foreach (var child in currentNode.children)
@@ -42,6 +50,8 @@ public class Bot : GameActor
                 currentNode = child;
             }
         }
+
+        Debug.Log("current node value: " + currentNode.value);
     }
     
     private int BestWay()
@@ -58,6 +68,8 @@ public class Bot : GameActor
             }
         }
 
+        // Debug.Log("current node: " + currentNode.value + ", value: " + tempValue + ", determined value: " + tempDeterminedValue);
+
         return currentNode.value - tempValue;
     }
 
@@ -68,16 +80,21 @@ public class Bot : GameActor
             return;
         }
 
+        // Debug.Log("Player turn: " + GameController.Instance.playerInTurn);
+
         int numberPebble = BestWay();
         Storage.Instance.ChangePebbleAmount(-numberPebble);
         GameController.Instance.UpdateTurnLog(numberPebble);
-        UpdateCurrentNode(numberPebble);
+        // UpdateCurrentNode(numberPebble);      
+        // Debug.Log("bot take pebble");
         GameController.Instance.SwitchTurn();
+        
+        // Thread.Sleep(2000);
 
-        Debug.LogWarning("Turn log");
-        foreach (var turn in GameController.Instance.turnLog)
-        {
-            Debug.Log("Turn: " + turn.player + " - " + turn.pebbleTaken);
-        }
+        // Debug.LogWarning("Turn log");
+        // foreach (var turn in GameController.Instance.turnLog)
+        // {
+        //     Debug.Log("Turn: " + turn.player + " - " + turn.pebbleTaken);
+        // }
     }
 }

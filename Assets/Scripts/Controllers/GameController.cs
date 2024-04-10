@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
     public int turnPointer {get; private set;}
     private SavedGame savedGame;
     public int playerInTurn {get; private set;}
+    private int undoWithBot;
 
     // --------------- TEST ---------------
     public int totalPebble;
@@ -24,7 +25,11 @@ public class GameController : MonoBehaviour
     private void Awake() {
         CreateSingleton();
         InitializeComponents();
+        undoWithBot = 0;
+        // DELETE LATER
         LoadPvBGame();
+        savedGame = new SavedGame();
+        savedGame.gameStyle = GameStyle.PvB;
     }
 
     private void CreateSingleton()
@@ -66,7 +71,7 @@ public class GameController : MonoBehaviour
         ((Bot)gameActor2).InitializeBot();
         // playerTurn = savedGame.playerTurn;
 
-        gameActor1.SetInTurnState(true);
+        // gameActor1.SetInTurnState(true);
         //  MODIFY -- change player turn fit to saved game.
         SetPlayerInTurn(1);
         uiController.HighLightPlayer(1);
@@ -78,16 +83,20 @@ public class GameController : MonoBehaviour
         // var actor1InTurn = gameActor1.isInTurn;
         if (playerInTurn == 1)
         {
-            uiController.HighLightPlayer(2);
             SetPlayerInTurn(2);
+            uiController.HighLightPlayer(2);
             uiController.UpdateNumberTakenText(1, Storage.Instance.numberPebbleTaken);
+            // Debug.Log("Switch to player 2 turn");
         }
         else
         {
-            uiController.HighLightPlayer(1);
             SetPlayerInTurn(1);
+            uiController.HighLightPlayer(1);
             uiController.UpdateNumberTakenText(2, Storage.Instance.numberPebbleTaken);
+            // Debug.Log("Switch to player 1 turn");
         }
+
+        uiController.ShowNumberPebbleTaken();
 
         // gameActor1.SetInTurnState(!actor1InTurn);
         // gameActor2.SetInTurnState(actor1InTurn);
@@ -104,10 +113,18 @@ public class GameController : MonoBehaviour
             // Debug.Log("last element: " + test.player + " - " + test.pebbleTaken);
         }
 
-        int playerTurn = (playerInTurn == 1) ? 2 : 1;
-        Turn turn = new Turn(playerTurn, pebbleAmount);
+        // int playerTurn = (playerInTurn == 1) ? 2 : 1;
+        Turn turn = new Turn(playerInTurn, pebbleAmount);
         turnLog.Add(turn);
         turnPointer++;
+
+        // TEST
+        if (savedGame.gameStyle == GameStyle.PvB)
+        {
+            ((Bot)gameActor2).UpdateCurrentNode(pebbleAmount);
+        }
+
+        // Debug.Log("Update: " + playerInTurn + " - " + pebbleAmount);
     }
 
     public bool CanUndo()
@@ -139,6 +156,22 @@ public class GameController : MonoBehaviour
         uiController.UpdateNumberTakenText(turn.player, turn.pebbleTaken);
         uiController.ShowNumberPebbleTaken();
         Storage.Instance.SetNumberPebbleTaken(turn.pebbleTaken);
+
+        if (savedGame.gameStyle == GameStyle.PvB)
+        {
+            // update bot's current node into its parent
+            ((Bot)gameActor2).UpdateCurrentNode(-1);
+            if (undoWithBot < 1)
+            {
+                undoWithBot++;
+                Undo();
+            }
+            else
+            {
+                undoWithBot = 0;
+                return;
+            }            
+        }
     }
 
     public void Redo()
@@ -175,8 +208,8 @@ public class GameController : MonoBehaviour
         
     }
 
-    public void SetPlayerInTurn(int player)
+    public void SetPlayerInTurn(int turn)
     {
-        this.playerInTurn = player;
+        this.playerInTurn = turn;
     }
 }
