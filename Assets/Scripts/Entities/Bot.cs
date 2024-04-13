@@ -7,7 +7,7 @@ public class Bot : GameActor
 {
     private GameDeterminedTree determinedTree;
     private Node currentNode;
-    private int turn;
+    public int turn {get; private set;}
 
     // private void Awake() {
     //     turn = 2;
@@ -37,7 +37,7 @@ public class Bot : GameActor
         if (numberPebble == -1)
         {
             currentNode = currentNode.parent;
-            Debug.Log("current node value: " + currentNode.value);
+            // Debug.Log("current node value: " + currentNode.value);
             return;
         }
 
@@ -51,7 +51,7 @@ public class Bot : GameActor
             }
         }
 
-        Debug.Log("current node value: " + currentNode.value);
+        // Debug.Log("current node value: " + currentNode.value);
     }
     
     private int BestWay()

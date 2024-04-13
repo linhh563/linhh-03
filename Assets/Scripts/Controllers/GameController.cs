@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
     public int turnPointer {get; private set;}
     private SavedGame savedGame;
     public int playerInTurn {get; private set;}
-    private int undoWithBot;
+    private int _doWithBot;
 
     // --------------- TEST ---------------
     public int totalPebble;
@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour
     private void Awake() {
         CreateSingleton();
         InitializeComponents();
-        undoWithBot = 0;
+        _doWithBot = 0;
         // DELETE LATER
         LoadPvBGame();
         savedGame = new SavedGame();
@@ -106,6 +106,11 @@ public class GameController : MonoBehaviour
     {
         if (turnPointer < turnLog.Count - 1)
         {
+            // tranh truong hop khi nguoi choi redo, toi luot bot di va se lam sai turn log.
+            if ((savedGame.gameStyle == GameStyle.PvB) && (playerInTurn == ((Bot)gameActor2).turn))
+            {
+                return;
+            }
             // Debug.Log("Remove " + (turnLog.Count - (turnPointer + 1)) + "elements");
             turnLog.RemoveRange(turnPointer + 1, turnLog.Count - (turnPointer + 1));
             // // TEST
@@ -161,21 +166,26 @@ public class GameController : MonoBehaviour
         {
             // update bot's current node into its parent
             ((Bot)gameActor2).UpdateCurrentNode(-1);
-            if (undoWithBot < 1)
+            if (_doWithBot < 1)
             {
-                undoWithBot++;
+                _doWithBot++;
                 Undo();
             }
             else
             {
-                undoWithBot = 0;
+                _doWithBot = 0;
                 return;
             }            
         }
     }
 
-    public void Redo()
+    public void TestRedo()
     {
+        Debug.Log(turnLog.Count + ", can redo: " + CanRedo().ToString());
+    }
+
+    public void Redo()
+    {     
         turnPointer++;
 
         if (turnPointer == turnLog.Count - 1)
@@ -190,7 +200,17 @@ public class GameController : MonoBehaviour
 
         uiController.UpdateNumberTakenText(turn.player, turn.pebbleTaken);
         uiController.ShowNumberPebbleTaken();
-        Storage.Instance.SetNumberPebbleTaken(turn.pebbleTaken);    
+        Storage.Instance.SetNumberPebbleTaken(turn.pebbleTaken);   
+
+
+        // if (savedGame.gameStyle == GameStyle.PvB)
+        // {
+        //     ((Bot)gameActor2).TakePebble();
+        //     if (_doWithBot < 1)
+        //     {
+
+        //     }
+        // } 
     }
 
     public void SaveGame()
