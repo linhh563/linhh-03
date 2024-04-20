@@ -29,7 +29,7 @@ public class GameController : MonoBehaviour
         // DELETE LATER
         LoadPvBGame();
         savedGame = new SavedGame();
-        savedGame.gameStyle = GameStyle.PvB;
+        savedGame.SetGameStyle(GameStyle.PvB);
     }
 
     private void CreateSingleton()
