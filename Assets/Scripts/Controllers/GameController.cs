@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -12,24 +13,18 @@ public class GameController : MonoBehaviour
     [SerializeField] private Transform gameActorTrans;
     private GameActor gameActor1;
     private GameActor gameActor2;
-    // MODIFY -- change to private.
-    public List<Turn> turnLog;
+    public List<Turn> turnLog {get; private set;}
     public int turnPointer {get; private set;}
-    private SavedGame savedGame;
+    public SavedGame savedGame {get; private set;}
     public int playerInTurn {get; private set;}
     private int _doWithBot;
-
-    // --------------- TEST ---------------
-    public int totalPebble;
+    public int winner {get; private set;}
 
     private void Awake() {
         CreateSingleton();
         InitializeComponents();
         _doWithBot = 0;
-        // DELETE LATER
-        LoadPvBGame();
-        savedGame = new SavedGame();
-        savedGame.SetGameStyle(GameStyle.PvB);
+        LoadGame();
     }
 
     private void CreateSingleton()
@@ -49,33 +44,61 @@ public class GameController : MonoBehaviour
     {
         turnLog = new List<Turn>();
         turnPointer = -1;
+        winner = 0;
     }
 
     public void LoadGame()
     {
-
+        this.savedGame = GameManager.Instance.savedGame;
+        if (savedGame.gameStyle == GameStyle.PvB)
+        {
+            LoadPvBGame();
+        }
+        else
+        {
+            LoadPvPGame();
+        }
     }
 
-    public void LoadPvPGame(SavedGame savedGame)
+    public void LoadPvPGame()
     {
+        gameActor1 = gameActorTrans.GetChild(0).AddComponent<Player>();
+        gameActor2 = gameActorTrans.GetChild(1).AddComponent<Player>();
 
+        Storage.Instance.InitializePebble(savedGame.totalPebble, savedGame.currentPebble);
+        SetPlayerInTurn(savedGame.currentTurn);
+        uiController.HighLightPlayer(savedGame.currentTurn);
+        if (GameManager.Instance.hasSavedGame)
+        {
+            turnLog = savedGame.turnLog;
+        }
+        else
+        {
+            turnLog = new List<Turn>();
+        }
     }
 
-    public void LoadPvBGame(/* SavedGame savedGame */)
+    public void LoadPvBGame()
     {
         gameActor1 = gameActorTrans.GetChild(0).AddComponent<Player>();
         gameActor2 = gameActorTrans.GetChild(1).AddComponent<Bot>();
 
-        Storage.Instance.InitializePebble(totalPebble, totalPebble);
+        Storage.Instance.InitializePebble(savedGame.totalPebble, savedGame.currentPebble);
         ((Bot)gameActor2).InitializeDeterminedTree(Storage.Instance.totalPebble);
         ((Bot)gameActor2).InitializeBot();
         // playerTurn = savedGame.playerTurn;
 
         // gameActor1.SetInTurnState(true);
-        //  MODIFY -- change player turn fit to saved game.
-        SetPlayerInTurn(1);
-        uiController.HighLightPlayer(1);
-        // ADD -- Set turn log.
+        SetPlayerInTurn(savedGame.currentTurn);
+        uiController.HighLightPlayer(savedGame.currentTurn);
+        if (GameManager.Instance.hasSavedGame)
+        {
+            turnLog = savedGame.turnLog;
+        }
+        else
+        {
+            turnLog = new List<Turn>();
+        }
     }
 
     public void SwitchTurn()
@@ -231,5 +254,20 @@ public class GameController : MonoBehaviour
     public void SetPlayerInTurn(int turn)
     {
         this.playerInTurn = turn;
+    }
+
+    public void SetWinner(int player)
+    {
+        this.winner = player;
+    }
+
+    public void SetWinner()
+    {
+        winner = playerInTurn;
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

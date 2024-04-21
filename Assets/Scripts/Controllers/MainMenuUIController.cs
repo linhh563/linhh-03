@@ -18,8 +18,8 @@ public class MainMenuUIController : MonoBehaviour
     [SerializeField] private GameObject pvpBtnBorder;
     [SerializeField] private GameObject pvbBtnBorder;
     [SerializeField] private GameObject _20PebbleBtnBorder;
+    [SerializeField] private GameObject _25PebbleBtnBorder;
     [SerializeField] private GameObject _30PebbleBtnBorder;
-    [SerializeField] private GameObject _40PebbleBtnBorder;
     [SerializeField] private GameObject turn1BtnBorder;
     [SerializeField] private GameObject turn2BtnBorder;
 
@@ -62,7 +62,6 @@ public class MainMenuUIController : MonoBehaviour
         continueMsgPanel.SetActive(state);
         GameManager.Instance.PlayClickBtnSfx();
     }
-
     public void ToggleOptionsPanel(bool state)
     {
         selectNewGameOptionsPanel.SetActive(state);
@@ -71,6 +70,16 @@ public class MainMenuUIController : MonoBehaviour
 
     public void ToggleOptionsErrorMsg(bool state)
     {
+        if (state)
+        {
+            if (GameManager.Instance.savedGame.gameStyle == GameStyle.Null || GameManager.Instance.savedGame.totalPebble == 0 || GameManager.Instance.savedGame.currentTurn == 0)
+            {
+                optionsErrorMsgPanel.SetActive(state);
+                GameManager.Instance.PlayClickBtnSfx();
+            }
+            return;
+        }
+
         optionsErrorMsgPanel.SetActive(state);
         GameManager.Instance.PlayClickBtnSfx();
     }
@@ -98,18 +107,18 @@ public class MainMenuUIController : MonoBehaviour
         {
             case 1:
                 _20PebbleBtnBorder.SetActive(true);
+                _25PebbleBtnBorder.SetActive(false);
                 _30PebbleBtnBorder.SetActive(false);
-                _40PebbleBtnBorder.SetActive(false);
                 break;
             case 2:
                 _20PebbleBtnBorder.SetActive(false);
-                _30PebbleBtnBorder.SetActive(true);
-                _40PebbleBtnBorder.SetActive(false);
+                _25PebbleBtnBorder.SetActive(true);
+                _30PebbleBtnBorder.SetActive(false);
                 break;
             case 3:
                 _20PebbleBtnBorder.SetActive(false);
-                _30PebbleBtnBorder.SetActive(false);
-                _40PebbleBtnBorder.SetActive(true);
+                _25PebbleBtnBorder.SetActive(false);
+                _30PebbleBtnBorder.SetActive(true);
                 break;
         }
 

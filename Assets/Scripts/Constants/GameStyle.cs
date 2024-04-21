@@ -5,5 +5,6 @@ using UnityEngine;
 public enum GameStyle
 {
     PvB,
-    PvP
+    PvP, 
+    Null
 }

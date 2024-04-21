@@ -32,6 +32,12 @@ public class Storage : MonoBehaviour
     public void ChangePebbleAmount(int value)
     {
         this.currentPebble += value;
+
+        if (currentPebble <= 0)
+        {
+            GameController.Instance.SetWinner();
+        }
+
         numberPebbleTaken = Math.Abs(value);
     }
 

@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class GamePlayUIController : MonoBehaviour
 {
-    private GameObject pausePanel;
     [SerializeField] private GameObject gameActor1Border;
     [SerializeField] private GameObject gameActor2Border;
-    [SerializeField] Image avatar1;
-    [SerializeField] Image avatar2;
+    [SerializeField] private Image avatar1;
+    [SerializeField] private Image avatar2;
+    [SerializeField] private Sprite botAvatar;
     [SerializeField] private Text currentPebbleTxt;
     [SerializeField] private GameObject numberTaken1UI;
     [SerializeField] private GameObject numberTaken2UI;
@@ -17,11 +17,19 @@ public class GamePlayUIController : MonoBehaviour
     [SerializeField] private Button redoBtn;
     [SerializeField] private Text actor1PebbleTakenTxt;
     [SerializeField] private Text actor2PebbleTakenTxt;
+    [SerializeField] private Text endGameMsgTxt;
+    [SerializeField] private GameObject endGamePanel;
+    [SerializeField] private GameObject pausePanel;
 
+    private void Awake() {
+        SetGameActorAvatar();
+    }
+    
     private void Update() {
         UpdateCurrentPebbleText();
         EnableUndoBtn();
         EnableRedoBtn();
+        EnableEndGameMsg();
     }
 
     public void EnablePauseUI(bool state)
@@ -110,5 +118,28 @@ public class GamePlayUIController : MonoBehaviour
     {
         numberTaken1UI.SetActive(false);
         numberTaken2UI.SetActive(false);
+    }
+
+    public void SetGameActorAvatar()
+    {
+        if (GameManager.Instance.savedGame.gameStyle == GameStyle.PvB)
+        {
+            avatar2.sprite = botAvatar;
+        }
+    }
+
+    public void EnableEndGameMsg()
+    {
+        if (GameController.Instance.winner  != 0)
+        {
+            endGameMsgTxt.text = "Player " + GameController.Instance.winner + " win!!!";
+            endGamePanel.SetActive(true);
+        }
+    }
+
+    public void TogglePausePanel(bool state)
+    {
+        pausePanel.SetActive(state);
+        GameManager.Instance.PlayClickBtnSfx();
     }
 }

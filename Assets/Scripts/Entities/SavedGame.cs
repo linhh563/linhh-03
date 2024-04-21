@@ -14,15 +14,9 @@ public class SavedGame
     public SavedGame()
     {
         turnLog = new List<Turn>();
-    }
-
-    public SavedGame(GameStyle gameStyle, int totalPebble, int currentPebble, int currentTurn, List<Turn> turnLog)
-    {
-        this.gameStyle = gameStyle;
-        this.totalPebble = totalPebble;
-        this.currentPebble = currentPebble;
-        this.currentTurn = currentTurn;
-        this.turnLog = turnLog;
+        gameStyle = GameStyle.Null;
+        totalPebble = 0;
+        currentTurn = 0;
     }
 
     public void SetTotalPebble(int totalPebble)
