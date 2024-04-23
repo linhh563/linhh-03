@@ -141,4 +141,9 @@ public class MainMenuUIController : MonoBehaviour
 
         GameManager.Instance.PlayClickBtnSfx();
     }
+
+    public void SetMusicVolume()
+    {
+        GameManager.Instance.SetMusicVolume(volumeSlider.value);
+    }
 }

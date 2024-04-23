@@ -2,14 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    [Header("Audio")]
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioMixer audioMixer;
     public AudioClip backgroundMusic;
     public AudioClip clickBtnSfx;
+    public float musicVolume {get; private set;}
+
+    // [Header("Game")]
     public bool hasSavedGame {get; private set;}
     public SavedGame savedGame {get; private set;} = new SavedGame();
 
@@ -70,6 +76,12 @@ public class GameManager : MonoBehaviour
 
         PlayClickBtnSfx();
         SceneManager.LoadScene("Gameplay");
+    }
+
+    public void SetMusicVolume(float value)
+    {
+        musicVolume = value;
+        audioMixer.SetFloat("music", Mathf.Log10(musicVolume) * 20);
     }
 
     public void QuitGame()
