@@ -23,10 +23,11 @@ public class Storage : MonoBehaviour
         }
     }
 
-    public void InitializePebble(int totalPebble, int currentPebble)
+    public void InitializePebble(int totalPebble, int currentPebble, int numberPebbleTaken)
     {
         this.totalPebble = totalPebble;
         this.currentPebble = currentPebble;
+        this.numberPebbleTaken = numberPebbleTaken;
     }
 
     public void ChangePebbleAmount(int value)

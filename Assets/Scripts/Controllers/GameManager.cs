@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
+using UnityEngine.WSA;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,16 +18,12 @@ public class GameManager : MonoBehaviour
 
     // [Header("Game")]
     public bool hasSavedGame {get; private set;}
-    public SavedGame savedGame {get; private set;} = new SavedGame();
-
-    private void Awake() {
-        CreateInstance();
-        DontDestroyOnLoad(this.gameObject);
-
-        hasSavedGame = false;
-    }
+    public SavedGame savedGame {get; private set;}
+    // private bool instanceExist = false;
 
     private void Start() {
+        CreateInstance();
+        hasSavedGame = false;
         musicSource.clip = backgroundMusic;
         musicSource.Play();
     }
@@ -35,7 +32,12 @@ public class GameManager : MonoBehaviour
     {
         if (Instance == null)
         {
+            DontDestroyOnLoad(this.gameObject);
             Instance = this;
+
+            savedGame = new SavedGame();
+
+            Debug.Log("Create Instance");
         }
     }
 
@@ -69,6 +71,10 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        PlayClickBtnSfx();
+
+        Debug.Log("total: " + savedGame.totalPebble + " , current: " + savedGame.currentPebble);
+
         if (savedGame.gameStyle == GameStyle.Null || savedGame.totalPebble == 0 || savedGame.currentTurn == 0)
         {
             return;
@@ -84,8 +90,26 @@ public class GameManager : MonoBehaviour
         audioMixer.SetFloat("music", Mathf.Log10(musicVolume) * 20);
     }
 
+    public void SaveGame(GameStyle style, int total, int currentPebble, int currentTurn, List<Turn> log, int turnPointer, int numberPebbleTaken)
+    {
+        this.savedGame.SetGameStyle(style);
+        this.savedGame.SetTotalPebble(total);
+        this.savedGame.SetCurrentPebble(currentPebble);
+        this.savedGame.SetCurrentTurn(currentTurn);
+        this.savedGame.SetTurnLog(log);
+        this.savedGame.SetTurnPointer(turnPointer);
+        this.savedGame.SetNumberPebbleTaken(numberPebbleTaken);
+
+        hasSavedGame = true;
+    }
+
+    public void SetHasSavedGame(bool state)
+    {
+        hasSavedGame = state;
+    }
+
     public void QuitGame()
     {
-        Application.Quit();
+        UnityEngine.Application.Quit();
     }
 }

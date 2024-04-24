@@ -42,9 +42,17 @@ public class GameController : MonoBehaviour
 
     private void InitializeComponents()
     {
-        turnLog = new List<Turn>();
-        turnPointer = -1;
+        InitializeSavedGame();
         winner = 0;
+    }
+
+    private void InitializeSavedGame()
+    {
+        if (!GameManager.Instance.hasSavedGame)
+        {
+            turnLog = new List<Turn>();
+            turnPointer = -1;
+        }
     }
 
     public void LoadGame()
@@ -65,16 +73,18 @@ public class GameController : MonoBehaviour
         gameActor1 = gameActorTrans.GetChild(0).AddComponent<Player>();
         gameActor2 = gameActorTrans.GetChild(1).AddComponent<Player>();
 
-        Storage.Instance.InitializePebble(savedGame.totalPebble, savedGame.currentPebble);
+        Storage.Instance.InitializePebble(savedGame.totalPebble, savedGame.currentPebble, savedGame.numberPebbleTaken);
         SetPlayerInTurn(savedGame.currentTurn);
         uiController.HighLightPlayer(savedGame.currentTurn);
+        turnLog = savedGame.turnLog;
+        turnPointer = savedGame.turnPointer;
+
         if (GameManager.Instance.hasSavedGame)
         {
-            turnLog = savedGame.turnLog;
-        }
-        else
-        {
-            turnLog = new List<Turn>();
+            uiController.UpdateNumberTakenText((playerInTurn == 1) ? 2 : 1, 
+                turnLog.ElementAt(turnPointer).pebbleTaken);
+
+            uiController.ShowNumberPebbleTaken();
         }
     }
 
@@ -83,7 +93,7 @@ public class GameController : MonoBehaviour
         gameActor1 = gameActorTrans.GetChild(0).AddComponent<Player>();
         gameActor2 = gameActorTrans.GetChild(1).AddComponent<Bot>();
 
-        Storage.Instance.InitializePebble(savedGame.totalPebble, savedGame.currentPebble);
+        Storage.Instance.InitializePebble(savedGame.totalPebble, savedGame.currentPebble, savedGame.numberPebbleTaken);
         ((Bot)gameActor2).InitializeDeterminedTree(Storage.Instance.totalPebble);
         ((Bot)gameActor2).InitializeBot();
         // playerTurn = savedGame.playerTurn;
@@ -93,11 +103,14 @@ public class GameController : MonoBehaviour
         uiController.HighLightPlayer(savedGame.currentTurn);
         if (GameManager.Instance.hasSavedGame)
         {
+            uiController.ShowNumberPebbleTaken();
             turnLog = savedGame.turnLog;
+            turnPointer = savedGame.turnPointer;
         }
         else
         {
             turnLog = new List<Turn>();
+            turnPointer = -1;
         }
     }
 
@@ -153,6 +166,8 @@ public class GameController : MonoBehaviour
         }
 
         // Debug.Log("Update: " + playerInTurn + " - " + pebbleAmount);
+
+        Debug.Log("turn pointer: " + turnPointer);
     }
 
     public bool CanUndo()
@@ -172,7 +187,9 @@ public class GameController : MonoBehaviour
         if (turnPointer == -1)
         {
             Storage.Instance.ChangePebbleAmount(Storage.Instance.numberPebbleTaken);
+            SwitchTurn();
             uiController.HidePebbleTakenUI();
+            
             return;
         }
 
@@ -200,11 +217,6 @@ public class GameController : MonoBehaviour
                 return;
             }            
         }
-    }
-
-    public void TestRedo()
-    {
-        Debug.Log(turnLog.Count + ", can redo: " + CanRedo().ToString());
     }
 
     public void Redo()
@@ -238,7 +250,11 @@ public class GameController : MonoBehaviour
 
     public void SaveGame()
     {
+        int total = Storage.Instance.totalPebble;
+        int current = Storage.Instance.currentPebble;
+        int numberPebbleTaken = Storage.Instance.numberPebbleTaken;
 
+        GameManager.Instance.SaveGame(savedGame.gameStyle, total, current, playerInTurn, turnLog, turnPointer, numberPebbleTaken);
     }
 
     public void PauseGame()
@@ -268,6 +284,10 @@ public class GameController : MonoBehaviour
 
     public void BackToMenu()
     {
+        if (winner != 0)
+        {
+            GameManager.Instance.SetHasSavedGame(false);
+        }
         SceneManager.LoadScene("MainMenu");
     }
 }

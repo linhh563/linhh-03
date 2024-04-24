@@ -30,7 +30,9 @@ public class MainMenuUIController : MonoBehaviour
 
     void Update()
     {
-        
+        languageDropdown.onValueChanged.AddListener(delegate {
+            GameManager.Instance.PlayClickBtnSfx();
+        });
     }
 
     private void InitializeLanguageDropdown()
@@ -59,6 +61,8 @@ public class MainMenuUIController : MonoBehaviour
             ToggleOptionsPanel(true);
             return;
         }
+
+        Debug.Log("has saved game: " + GameManager.Instance.hasSavedGame);
         continueMsgPanel.SetActive(state);
         GameManager.Instance.PlayClickBtnSfx();
     }
@@ -84,8 +88,9 @@ public class MainMenuUIController : MonoBehaviour
         GameManager.Instance.PlayClickBtnSfx();
     }
 
-    public void HighLightGameStyleBtn(int value)
+    public void SetGameStyle(int value)
     {
+        // high light button
         switch (value)
         {
             case 1: 
@@ -99,23 +104,25 @@ public class MainMenuUIController : MonoBehaviour
         }
 
         GameManager.Instance.PlayClickBtnSfx();
+        GameManager.Instance.SetGameStyle(value);
     }
 
-    public void HighLightPebbleBtn(int value)
+    public void SetPebble(int value)
     {
+        // high light button
         switch (value)
         {
-            case 1:
+            case 20:
                 _20PebbleBtnBorder.SetActive(true);
                 _25PebbleBtnBorder.SetActive(false);
                 _30PebbleBtnBorder.SetActive(false);
                 break;
-            case 2:
+            case 25:
                 _20PebbleBtnBorder.SetActive(false);
                 _25PebbleBtnBorder.SetActive(true);
                 _30PebbleBtnBorder.SetActive(false);
                 break;
-            case 3:
+            case 0:
                 _20PebbleBtnBorder.SetActive(false);
                 _25PebbleBtnBorder.SetActive(false);
                 _30PebbleBtnBorder.SetActive(true);
@@ -123,10 +130,13 @@ public class MainMenuUIController : MonoBehaviour
         }
 
         GameManager.Instance.PlayClickBtnSfx();
+        GameManager.Instance.SetPebble(value);
     }
 
-    public void HighLightTurnBtn(int value)
+    public void SetPlayerTurn(int value)
     {
+
+        // high light button
         switch (value)
         {
             case 1:
@@ -140,10 +150,40 @@ public class MainMenuUIController : MonoBehaviour
         }
 
         GameManager.Instance.PlayClickBtnSfx();
+        GameManager.Instance.SetPlayerTurn(value);
+
     }
 
     public void SetMusicVolume()
     {
         GameManager.Instance.SetMusicVolume(volumeSlider.value);
+    }
+
+    // public void SetGameStyle(int value)
+    // {
+    //     GameManager.Instance.PlayClickBtnSfx();
+    //     GameManager.Instance.SetGameStyle(value);
+    // }
+
+    // public void SetPebble(int value)
+    // {
+    //     GameManager.Instance.PlayClickBtnSfx();
+    //     GameManager.Instance.SetPebble(value);
+    // }
+
+    // public void SetPlayerTurn(int value)
+    // {
+    //     GameManager.Instance.PlayClickBtnSfx();
+    //     GameManager.Instance.SetPlayerTurn(value);
+    // }
+
+    public void StartGame()
+    {
+        GameManager.Instance.StartGame();
+    }
+
+    public void QuitGame()
+    {
+        GameManager.Instance.QuitGame();
     }
 }

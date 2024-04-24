@@ -10,6 +10,8 @@ public class SavedGame
     // this refer to which player is in current turn
     public int currentTurn {get; private set;}
     public List<Turn> turnLog {get; private set;}
+    public int turnPointer {get; private set;}
+    public int numberPebbleTaken {get; private set;}
 
     public SavedGame()
     {
@@ -17,6 +19,7 @@ public class SavedGame
         gameStyle = GameStyle.Null;
         totalPebble = 0;
         currentTurn = 0;
+        turnPointer = -1;
     }
 
     public void SetTotalPebble(int totalPebble)
@@ -37,5 +40,20 @@ public class SavedGame
     public void SetCurrentTurn(int currentTurn)
     {
         this.currentTurn = currentTurn;
+    }
+
+    public void SetTurnLog(List<Turn> log)
+    {
+        this.turnLog = log;
+    }
+
+    public void SetTurnPointer(int value)
+    {
+        turnPointer = value;
+    }
+
+    public void SetNumberPebbleTaken(int value)
+    {
+        numberPebbleTaken = value;
     }
 }
