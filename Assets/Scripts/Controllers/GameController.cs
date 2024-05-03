@@ -9,7 +9,6 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance;
     [SerializeField] private GamePlayUIController uiController;
-    // private int playerTurn;
     [SerializeField] private Transform gameActorTrans;
     private GameActor gameActor1;
     private GameActor gameActor2;
@@ -94,11 +93,8 @@ public class GameController : MonoBehaviour
         gameActor2 = gameActorTrans.GetChild(1).AddComponent<Bot>();
 
         Storage.Instance.InitializePebble(savedGame.totalPebble, savedGame.currentPebble, savedGame.numberPebbleTaken);
-        ((Bot)gameActor2).InitializeDeterminedTree(Storage.Instance.totalPebble);
-        ((Bot)gameActor2).InitializeBot();
-        // playerTurn = savedGame.playerTurn;
+        ((Bot)gameActor2).InitializeBot(Storage.Instance.totalPebble);
 
-        // gameActor1.SetInTurnState(true);
         SetPlayerInTurn(savedGame.currentTurn);
         uiController.HighLightPlayer(savedGame.currentTurn);
         if (GameManager.Instance.hasSavedGame)
@@ -116,26 +112,20 @@ public class GameController : MonoBehaviour
 
     public void SwitchTurn()
     {
-        // var actor1InTurn = gameActor1.isInTurn;
         if (playerInTurn == 1)
         {
             SetPlayerInTurn(2);
             uiController.HighLightPlayer(2);
             uiController.UpdateNumberTakenText(1, Storage.Instance.numberPebbleTaken);
-            // Debug.Log("Switch to player 2 turn");
         }
         else
         {
             SetPlayerInTurn(1);
             uiController.HighLightPlayer(1);
             uiController.UpdateNumberTakenText(2, Storage.Instance.numberPebbleTaken);
-            // Debug.Log("Switch to player 1 turn");
         }
 
         uiController.ShowNumberPebbleTaken();
-
-        // gameActor1.SetInTurnState(!actor1InTurn);
-        // gameActor2.SetInTurnState(actor1InTurn);
     }
 
     public void UpdateTurnLog(int pebbleAmount)
@@ -147,27 +137,17 @@ public class GameController : MonoBehaviour
             {
                 return;
             }
-            // Debug.Log("Remove " + (turnLog.Count - (turnPointer + 1)) + "elements");
             turnLog.RemoveRange(turnPointer + 1, turnLog.Count - (turnPointer + 1));
-            // // TEST
-            // var test = turnLog.LastOrDefault();
-            // Debug.Log("last element: " + test.player + " - " + test.pebbleTaken);
         }
 
-        // int playerTurn = (playerInTurn == 1) ? 2 : 1;
         Turn turn = new Turn(playerInTurn, pebbleAmount);
         turnLog.Add(turn);
         turnPointer++;
 
-        // TEST
         if (savedGame.gameStyle == GameStyle.PvB)
         {
             ((Bot)gameActor2).UpdateCurrentNode(pebbleAmount);
         }
-
-        // Debug.Log("Update: " + playerInTurn + " - " + pebbleAmount);
-
-        Debug.Log("turn pointer: " + turnPointer);
     }
 
     public bool CanUndo()
@@ -236,16 +216,6 @@ public class GameController : MonoBehaviour
         uiController.UpdateNumberTakenText(turn.player, turn.pebbleTaken);
         uiController.ShowNumberPebbleTaken();
         Storage.Instance.SetNumberPebbleTaken(turn.pebbleTaken);   
-
-
-        // if (savedGame.gameStyle == GameStyle.PvB)
-        // {
-        //     ((Bot)gameActor2).TakePebble();
-        //     if (_doWithBot < 1)
-        //     {
-
-        //     }
-        // } 
     }
 
     public void SaveGame()

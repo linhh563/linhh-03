@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
     // [Header("Game")]
     public bool hasSavedGame {get; private set;}
     public SavedGame savedGame {get; private set;}
-    // private bool instanceExist = false;
 
     private void Start() {
         CreateInstance();

@@ -31,27 +31,11 @@ public class GameDeterminedTree
             root.AddChild(child);
         }
 
-        // var child_1 = new Node(root.value - 1);
-        // root.AddFirstChild(child_1);
-
-        // var child_2 = new Node(root.value - 2);
-        // root.AddSecondChild(child_2);
-
-        // var child_3 = new Node(root.value - 3);
-        // root.AddThirdChild(child_3);
-
         foreach (var child in root.children)
         {
             CreateTree(child);
         }
 
-        // CreateTree(root.firstChild);
-        // CreateTree(root.secondChild);
-        // CreateTree(root.thirdChild);
-
-        // Debug.Log("Create tree successful!!!");
-
-        // add condition to cut alpha-beta
         DetermineNode(root);
     }
 
@@ -64,15 +48,6 @@ public class GameDeterminedTree
         }
 
         int value = node.determinedValue;
-
-        // var _node = node.firstChild;
-        // value = DetermineChild(playerTurn, value, _node);
-
-        // _node = node.secondChild;
-        // value = DetermineChild(playerTurn, value, _node);
-
-        // _node = node.thirdChild;
-        // value = DetermineChild(playerTurn, value, _node);
 
         foreach (var child in node.children)
         {
@@ -99,20 +74,4 @@ public class GameDeterminedTree
         node.SetDeterminedValue(value);
         return value;
     }
-
-    // public int DetermineChild(int playerTurn, int value, Node node)
-    // {
-    //     int result;
-        
-    //     if (playerTurn == 1)
-    //     {
-    //         result = DefinedValue.FindMax(value, DetermineNode(node));
-    //     }
-    //     else
-    //     {
-    //         result = DefinedValue.FindMin(value, DetermineNode(node));
-    //     }
-
-    //     return result;
-    // }
 }

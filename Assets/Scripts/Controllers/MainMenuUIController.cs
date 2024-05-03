@@ -159,24 +159,6 @@ public class MainMenuUIController : MonoBehaviour
         GameManager.Instance.SetMusicVolume(volumeSlider.value);
     }
 
-    // public void SetGameStyle(int value)
-    // {
-    //     GameManager.Instance.PlayClickBtnSfx();
-    //     GameManager.Instance.SetGameStyle(value);
-    // }
-
-    // public void SetPebble(int value)
-    // {
-    //     GameManager.Instance.PlayClickBtnSfx();
-    //     GameManager.Instance.SetPebble(value);
-    // }
-
-    // public void SetPlayerTurn(int value)
-    // {
-    //     GameManager.Instance.PlayClickBtnSfx();
-    //     GameManager.Instance.SetPlayerTurn(value);
-    // }
-
     public void StartGame()
     {
         GameManager.Instance.StartGame();

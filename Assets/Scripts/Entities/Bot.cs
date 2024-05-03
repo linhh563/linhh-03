@@ -9,27 +9,18 @@ public class Bot : GameActor
     private Node currentNode;
     public int turn {get; private set;}
 
-    // private void Awake() {
-    //     turn = 2;
-    //     InitializeDeterminedTree(Storage.Instance.totalPebble);
-    //     currentNode = determinedTree.root;
-    // }
-
     private void Update() {
         TakePebble();
     }
 
-    public void InitializeBot()
-    {
-        // MODIFY -- change 2 by the parameter.
-        turn = 2;
-        currentNode = determinedTree.root;
-    }
-
-    public void InitializeDeterminedTree(int totalPebble)
+    public void InitializeBot(int totalPebble)
     {
         this.determinedTree = new GameDeterminedTree(totalPebble);
         determinedTree.CreateTree(determinedTree.root);
+
+        // MODIFY -- change 2 by the parameter.
+        turn = 2;
+        currentNode = determinedTree.root;
     }
 
     public void UpdateCurrentNode(int numberPebble)
@@ -37,7 +28,6 @@ public class Bot : GameActor
         if (numberPebble == -1)
         {
             currentNode = currentNode.parent;
-            // Debug.Log("current node value: " + currentNode.value);
             return;
         }
 
@@ -50,8 +40,6 @@ public class Bot : GameActor
                 currentNode = child;
             }
         }
-
-        // Debug.Log("current node value: " + currentNode.value);
     }
     
     private int BestWay()
@@ -68,8 +56,6 @@ public class Bot : GameActor
             }
         }
 
-        // Debug.Log("current node: " + currentNode.value + ", value: " + tempValue + ", determined value: " + tempDeterminedValue);
-
         return currentNode.value - tempValue;
     }
 
@@ -80,21 +66,9 @@ public class Bot : GameActor
             return;
         }
 
-        // Debug.Log("Player turn: " + GameController.Instance.playerInTurn);
-
         int numberPebble = BestWay();
         Storage.Instance.ChangePebbleAmount(-numberPebble);
         GameController.Instance.UpdateTurnLog(numberPebble);
-        // UpdateCurrentNode(numberPebble);      
-        // Debug.Log("bot take pebble");
         GameController.Instance.SwitchTurn();
-        
-        // Thread.Sleep(2000);
-
-        // Debug.LogWarning("Turn log");
-        // foreach (var turn in GameController.Instance.turnLog)
-        // {
-        //     Debug.Log("Turn: " + turn.player + " - " + turn.pebbleTaken);
-        // }
     }
 }
