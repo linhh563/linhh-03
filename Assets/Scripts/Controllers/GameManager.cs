@@ -75,7 +75,6 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        PlayClickBtnSfx();
         SceneManager.LoadScene("Gameplay");
     }
 
@@ -101,6 +100,14 @@ public class GameManager : MonoBehaviour
     public void SetHasSavedGame(bool state)
     {
         hasSavedGame = state;
+    }
+
+    public void ResetSavedgame()
+    {
+        this.savedGame.SetGameStyle(GameStyle.Null);
+        this.savedGame.SetTotalPebble(0);
+        this.savedGame.SetCurrentPebble(0);
+        this.savedGame.SetCurrentTurn(0);
     }
 
     private void SaveData()

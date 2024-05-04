@@ -259,6 +259,12 @@ public class GameController : MonoBehaviour
         {
             GameManager.Instance.SetHasSavedGame(false);
         }
+        ResetSavedGame();
         SceneManager.LoadScene("MainMenu");
+    }
+    
+    public void ResetSavedGame()
+    {
+        GameManager.Instance.ResetSavedgame();
     }
 }

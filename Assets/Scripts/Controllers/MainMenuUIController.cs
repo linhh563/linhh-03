@@ -64,10 +64,15 @@ public class MainMenuUIController : MonoBehaviour
             return;
         }
 
-        Debug.Log("has saved game: " + GameManager.Instance.hasSavedGame);
         continueMsgPanel.SetActive(state);
         GameManager.Instance.PlayClickBtnSfx();
     }
+
+    public void ResetSavedGame()
+    {
+        GameManager.Instance.ResetSavedgame();
+    }
+
     public void ToggleOptionsPanel(bool state)
     {
         selectNewGameOptionsPanel.SetActive(state);
@@ -80,6 +85,7 @@ public class MainMenuUIController : MonoBehaviour
         {
             if (GameManager.Instance.savedGame.gameStyle == GameStyle.Null || GameManager.Instance.savedGame.totalPebble == 0 || GameManager.Instance.savedGame.currentTurn == 0)
             {
+                loadScreen.SetActive(false);
                 optionsErrorMsgPanel.SetActive(state);
                 GameManager.Instance.PlayClickBtnSfx();
             }
@@ -163,6 +169,11 @@ public class MainMenuUIController : MonoBehaviour
 
     public void ToggleLoadScreen(bool state)
     {
+        if (GameManager.Instance.savedGame.gameStyle == GameStyle.Null || GameManager.Instance.savedGame.totalPebble == 0 || GameManager.Instance.savedGame.currentTurn == 0)
+        {
+            return;
+        }
+        
         loadScreen.SetActive(state);
     }
 
