@@ -16,6 +16,7 @@ public class GamePlayUIController : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] private Button undoBtn;
     [SerializeField] private Button redoBtn;
+    [SerializeField] private Slider volumeSlider;
 
     [Header("Texts & Images")]
     [SerializeField] private Image avatar1;
@@ -28,6 +29,7 @@ public class GamePlayUIController : MonoBehaviour
 
     private void Awake() {
         SetGameActorAvatar();
+        SetAudioSlider();
     }
     
     private void Update() {
@@ -132,5 +134,20 @@ public class GamePlayUIController : MonoBehaviour
     {
         pausePanel.SetActive(state);
         GameManager.Instance.PlayClickBtnSfx();
+    }
+
+    public void PlayClickButtonSfx()
+    {
+        GameManager.Instance.PlayClickBtnSfx();
+    }
+
+    private void SetAudioSlider()
+    {
+        volumeSlider.value = GameManager.Instance.musicVolume;
+    }
+
+    public void SetMusicVolume()
+    {
+        GameManager.Instance.SetMusicVolume(volumeSlider.value);
     }
 }

@@ -8,6 +8,7 @@ using UnityEngine.WSA;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    
     [Header("Audio")]
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;

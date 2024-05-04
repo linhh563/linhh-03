@@ -27,6 +27,7 @@ public class MainMenuUIController : MonoBehaviour
     void Start()
     {
         InitializeLanguageDropdown();
+        SetAudioSlider();
     }
 
     void Update()
@@ -163,6 +164,11 @@ public class MainMenuUIController : MonoBehaviour
     public void ToggleLoadScreen(bool state)
     {
         loadScreen.SetActive(state);
+    }
+
+    private void SetAudioSlider()
+    {
+        volumeSlider.value = GameManager.Instance.musicVolume;
     }
 
     public void StartGame()
