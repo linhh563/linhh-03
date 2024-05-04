@@ -279,7 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1308,7 +1308,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: RESUME
+  m_Text: "TI\u1EBEP T\u1EE4C"
 --- !u!222 &935068199
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1569,7 +1569,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ' PAUSE'
+  m_Text: "T\u1EA0M D\u1EEANG"
 --- !u!222 &1087911893
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1819,7 +1819,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: MAIN MENU
+  m_Text: "TRANG CH\xCDNH"
 --- !u!222 &1303986993
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1946,7 +1946,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -260, y: 75}
-  m_SizeDelta: {x: 380, y: 120}
+  m_SizeDelta: {x: 430, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1631035868
 MonoBehaviour:
@@ -2166,7 +2166,7 @@ MonoBehaviour:
   m_MinValue: 0.00001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.00001
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -2354,7 +2354,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 260, y: 75}
-  m_SizeDelta: {x: 380, y: 120}
+  m_SizeDelta: {x: 430, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2027037857
 MonoBehaviour:
@@ -2609,7 +2609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

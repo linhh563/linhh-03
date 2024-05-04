@@ -125,7 +125,7 @@ public class GamePlayUIController : MonoBehaviour
     {
         if (GameController.Instance.winner  != 0)
         {
-            endGameMsgTxt.text = "Player " + GameController.Instance.winner + " win!!!";
+            endGameMsgTxt.text = "Người chơi " + GameController.Instance.winner + " chiến thắng!!!";
             endGamePanel.SetActive(true);
         }
     }
