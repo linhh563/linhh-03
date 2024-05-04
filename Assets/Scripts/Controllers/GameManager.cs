@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
-using UnityEngine.WSA;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    
+    public SavedSetting savedSetting = new SavedSetting();
+
     [Header("Audio")]
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour
 
     private void Start() {
         CreateInstance();
-        hasSavedGame = false;
         musicSource.clip = backgroundMusic;
         musicSource.Play();
     }
@@ -35,7 +34,7 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
             Instance = this;
 
-            savedGame = new SavedGame();
+            LoadFromJson();
         }
     }
 
@@ -104,8 +103,85 @@ public class GameManager : MonoBehaviour
         hasSavedGame = state;
     }
 
+    private void SaveData()
+    {
+        savedSetting.musicVolume = this.musicVolume;
+        savedSetting.hasSavedGame = this.hasSavedGame;
+
+        if (!this.hasSavedGame)
+        {
+            savedSetting.gameStyle = GameStyle.Null;
+            savedSetting.totalPebble = 0;
+            savedSetting.currentPebble = 0;
+            savedSetting.currentTurn = 0;
+            savedSetting.turnPointer = -1;
+            savedSetting.numberPebbleTaken = 0;
+        }
+        else
+        {
+            savedSetting.gameStyle = this.savedGame.gameStyle;
+            savedSetting.totalPebble = this.savedGame.totalPebble;
+            savedSetting.currentPebble = this.savedGame.currentPebble;
+            savedSetting.currentTurn = this.savedGame.currentTurn;
+            savedSetting.turnLog = this.savedGame.turnLog;
+            savedSetting.turnPointer = this.savedGame.turnPointer;
+            savedSetting.numberPebbleTaken = this.savedGame.numberPebbleTaken;
+        }
+    }
+
+    private void SaveToJson()
+    {
+        string settingData = JsonUtility.ToJson(savedSetting);
+        string filePath = UnityEngine.Application.persistentDataPath + "/SettingData.json";
+        // Debug.Log(filePath);
+        System.IO.File.WriteAllText(filePath, settingData);
+    }
+
+    private void LoadData()
+    {
+        this.musicVolume = savedSetting.musicVolume;
+        SetHasSavedGame(savedSetting.hasSavedGame);
+
+        savedGame = new SavedGame();
+        if (hasSavedGame)
+        {
+            savedGame.SetGameStyle(savedSetting.gameStyle);
+            savedGame.SetTotalPebble(savedSetting.totalPebble);
+            savedGame.SetCurrentPebble(savedSetting.currentPebble);
+            savedGame.SetCurrentTurn(savedSetting.currentTurn);
+            savedGame.SetTurnLog(savedSetting.turnLog);
+            savedGame.SetTurnPointer(savedSetting.turnPointer);
+            savedGame.SetNumberPebbleTaken(savedSetting.numberPebbleTaken);
+        }
+    }
+
+    private void LoadFromJson()
+    {
+        string filePath = UnityEngine.Application.persistentDataPath + "/SettingData.json";
+        string settingData = System.IO.File.ReadAllText(filePath);
+
+        savedSetting = JsonUtility.FromJson<SavedSetting>(settingData);
+        LoadData();
+    }
+
     public void QuitGame()
     {
+        SaveData();
+        SaveToJson();
         UnityEngine.Application.Quit();
     }
+}
+
+
+[System.Serializable]
+public class SavedSetting {
+    public float musicVolume;
+    public bool hasSavedGame;
+    public GameStyle gameStyle;
+    public int totalPebble;
+    public int currentPebble;
+    public int currentTurn;
+    public List<Turn> turnLog = new List<Turn>();
+    public int turnPointer;
+    public int numberPebbleTaken;
 }

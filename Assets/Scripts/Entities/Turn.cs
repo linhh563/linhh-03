@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
+[System.Serializable]
 public class Turn
 {
-    public int player {get; private set;}
-    public int pebbleTaken {get; private set;}
+    public int player;
+    public int pebbleTaken;
 
     public Turn(int player, int pebbleTaken)
     {

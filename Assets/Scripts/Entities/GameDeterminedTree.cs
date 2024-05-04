@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameDeterminedTree
 {
-    public Node root {get; private set;}
+    public Node root;
     public GameDeterminedTree(Node root)
     {
         this.root = root;

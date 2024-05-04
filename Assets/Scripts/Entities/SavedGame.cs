@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class SavedGame
 {
     public GameStyle gameStyle {get; private set;}
@@ -12,6 +13,7 @@ public class SavedGame
     public List<Turn> turnLog {get; private set;}
     public int turnPointer {get; private set;}
     public int numberPebbleTaken {get; private set;}
+    public GameDeterminedTree determinedTree {get; private set;}
 
     public SavedGame()
     {
@@ -55,5 +57,10 @@ public class SavedGame
     public void SetNumberPebbleTaken(int value)
     {
         numberPebbleTaken = value;
+    }
+
+    public void SetGameDeterminedTree(GameDeterminedTree tree)
+    {
+        determinedTree = tree;
     }
 }
