@@ -97,6 +97,7 @@ public class GameController : MonoBehaviour
 
         SetPlayerInTurn(savedGame.currentTurn);
         uiController.HighLightPlayer(savedGame.currentTurn);
+
         if (GameManager.Instance.hasSavedGame)
         {
             uiController.ShowNumberPebbleTaken();

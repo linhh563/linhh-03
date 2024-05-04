@@ -13,6 +13,7 @@ public class MainMenuUIController : MonoBehaviour
     [SerializeField] private GameObject settingPanel;
     [SerializeField] private GameObject selectNewGameOptionsPanel;
     [SerializeField] private GameObject optionsErrorMsgPanel;
+    [SerializeField] private GameObject loadScreen;
 
     [Header("Button Borders")]
     [SerializeField] private GameObject pvpBtnBorder;
@@ -122,7 +123,7 @@ public class MainMenuUIController : MonoBehaviour
                 _25PebbleBtnBorder.SetActive(true);
                 _30PebbleBtnBorder.SetActive(false);
                 break;
-            case 0:
+            case 30:
                 _20PebbleBtnBorder.SetActive(false);
                 _25PebbleBtnBorder.SetActive(false);
                 _30PebbleBtnBorder.SetActive(true);
@@ -157,6 +158,11 @@ public class MainMenuUIController : MonoBehaviour
     public void SetMusicVolume()
     {
         GameManager.Instance.SetMusicVolume(volumeSlider.value);
+    }
+
+    public void ToggleLoadScreen(bool state)
+    {
+        loadScreen.SetActive(state);
     }
 
     public void StartGame()

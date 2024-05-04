@@ -35,8 +35,6 @@ public class GameManager : MonoBehaviour
             Instance = this;
 
             savedGame = new SavedGame();
-
-            Debug.Log("Create Instance");
         }
     }
 
@@ -71,8 +69,6 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         PlayClickBtnSfx();
-
-        Debug.Log("total: " + savedGame.totalPebble + " , current: " + savedGame.currentPebble);
 
         if (savedGame.gameStyle == GameStyle.Null || savedGame.totalPebble == 0 || savedGame.currentTurn == 0)
         {

@@ -5,21 +5,26 @@ using UnityEngine.UI;
 
 public class GamePlayUIController : MonoBehaviour
 {
+    [Header("Game Objects")]
     [SerializeField] private GameObject gameActor1Border;
     [SerializeField] private GameObject gameActor2Border;
+    [SerializeField] private GameObject numberTaken1UI;
+    [SerializeField] private GameObject numberTaken2UI;
+    [SerializeField] private GameObject endGamePanel;
+    [SerializeField] private GameObject pausePanel;
+
+    [Header("Buttons")]
+    [SerializeField] private Button undoBtn;
+    [SerializeField] private Button redoBtn;
+
+    [Header("Texts & Images")]
     [SerializeField] private Image avatar1;
     [SerializeField] private Image avatar2;
     [SerializeField] private Sprite botAvatar;
     [SerializeField] private Text currentPebbleTxt;
-    [SerializeField] private GameObject numberTaken1UI;
-    [SerializeField] private GameObject numberTaken2UI;
-    [SerializeField] private Button undoBtn;
-    [SerializeField] private Button redoBtn;
     [SerializeField] private Text actor1PebbleTakenTxt;
     [SerializeField] private Text actor2PebbleTakenTxt;
     [SerializeField] private Text endGameMsgTxt;
-    [SerializeField] private GameObject endGamePanel;
-    [SerializeField] private GameObject pausePanel;
 
     private void Awake() {
         SetGameActorAvatar();
@@ -39,26 +44,12 @@ public class GamePlayUIController : MonoBehaviour
 
     public void EnableUndoBtn()
     {
-        if (GameController.Instance.CanUndo())
-        {
-            undoBtn.interactable = true;
-        }
-        else
-        {
-            undoBtn.interactable = false;
-        }
+        undoBtn.interactable = GameController.Instance.CanUndo();
     }
 
     public void EnableRedoBtn()
     {
-        if (GameController.Instance.CanRedo())
-        {
-            redoBtn.interactable = true;
-        }
-        else
-        {
-            redoBtn.interactable = false;
-        }
+        redoBtn.interactable = GameController.Instance.CanRedo();
     }
 
     public void HighLightPlayer(int player)

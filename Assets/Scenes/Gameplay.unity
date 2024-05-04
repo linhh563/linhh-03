@@ -672,19 +672,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameActor1Border: {fileID: 1180083686}
   gameActor2Border: {fileID: 1180083685}
+  numberTaken1UI: {fileID: 1180083682}
+  numberTaken2UI: {fileID: 1180083681}
+  endGamePanel: {fileID: 749453486}
+  pausePanel: {fileID: 116746373}
+  loadScreen: {fileID: 0}
+  undoBtn: {fileID: 124414999}
+  redoBtn: {fileID: 124414998}
   avatar1: {fileID: 1180083684}
   avatar2: {fileID: 1180083683}
   botAvatar: {fileID: 21300000, guid: bf7bd8a414bc29a4ca5b848193b92071, type: 3}
   currentPebbleTxt: {fileID: 716809808}
-  numberTaken1UI: {fileID: 1180083682}
-  numberTaken2UI: {fileID: 1180083681}
-  undoBtn: {fileID: 124414999}
-  redoBtn: {fileID: 124414998}
   actor1PebbleTakenTxt: {fileID: 1180083680}
   actor2PebbleTakenTxt: {fileID: 1180083679}
   endGameMsgTxt: {fileID: 2075401459}
-  endGamePanel: {fileID: 749453486}
-  pausePanel: {fileID: 116746373}
 --- !u!4 &662709391
 Transform:
   m_ObjectHideFlags: 0

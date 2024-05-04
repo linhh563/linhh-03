@@ -44,6 +44,11 @@ public class Bot : GameActor
     
     private int BestWay()
     {
+        if (Storage.Instance.currentPebble <= 3)
+        {
+            return Storage.Instance.currentPebble;
+        }
+        
         int tempDeterminedValue = DefinedValue.Max;
         int tempValue = 1;
 
